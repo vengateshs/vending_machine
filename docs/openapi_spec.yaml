@@ -1,0 +1,1039 @@
+openapi: 3.0.0
+info:
+  description: APIs for Vending Machine Service
+  version: "1.0.0"
+  title: Vending Machine Service
+  contact:
+    email: vengateshs@gmail.com
+servers:
+  - url: 'http://127.0.0.1'
+tags:
+  - name: Users
+    description: 'The Users APIs allow user management'
+  - name: Products
+    description: 'The Products APIs allow product management'
+  - name: Actions
+    description: 'Actions which are not entity operations'
+
+paths:
+  /users:
+    post:
+      tags:
+        - Users
+      summary: Create a new user
+      description: POST shouldn’t require authentication
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true      
+      responses:
+        "200":
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "409":
+          description: Resource Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "415":
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+    get:
+      tags:
+        - Users
+      summary: List all the registered users
+      operationId: getAllUsers
+      security:
+        - basicAuth: []
+      parameters:
+      - description: The number of users to skip before starting to collect the result set
+        in: query
+        name: offset
+        schema:
+          type: integer
+      - description: The numbers of items to return
+        in: query
+        name: limit
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /users/{userName}:
+    get:
+      tags:
+        - Users
+      summary: Get detailed information of a registered user
+      description: Get detailed information of a registered user by userName.
+      operationId: getUser
+      security:
+        - basicAuth: []
+      parameters:
+      - in: path
+        name: userName
+        required: true
+        schema:
+          $ref: '#/components/schemas/User/properties/userName'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Users
+      summary: Delete a registered user
+      description: Delete a registered user by userName.
+      operationId: deleteUser
+      security:
+        - basicAuth: []
+      parameters:
+      - in: path
+        name: userName
+        required: true
+        schema:
+          $ref: '#/components/schemas/User/properties/userName'
+      responses:
+        "200":
+          description: User deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      tags:
+        - Users
+      summary: Update a registered user
+      description: Update a registered user by userName.
+      operationId: updateUser
+      security:
+        - basicAuth: []
+      parameters:
+      - in: path
+        name: userName
+        required: true
+        schema:
+          $ref: '#/components/schemas/User/properties/userName'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+        required: true
+      responses:
+        "200":
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "415":
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /products:
+    post:
+      tags:
+        - Products
+      summary: Create a new product
+      description: POST can be called only by the seller user who created the product
+      operationId: createProduct
+      security:
+        - basicAuth: []      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreate'
+        required: true      
+      responses:
+        "200":
+          description: Product created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "415":
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+    get:
+      tags:
+        - Products
+      summary: List all the registered products
+      description: GET can be called by anyone
+      operationId: getAllProducts
+      security:
+        - basicAuth: []      
+      parameters:
+      - description: The number of users to skip before starting to collect the result set
+        in: query
+        name: offset
+        schema:
+          type: integer
+      - description: The numbers of items to return
+        in: query
+        name: limit
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductList'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /products/{productId}:
+    get:
+      tags:
+        - Products
+      summary: Get detailed information of a registered product
+      description: Get detailed information of a registered product by productId.
+      operationId: getProduct
+      security:
+        - basicAuth: []
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          $ref: '#/components/schemas/Product/properties/id'
+      responses:
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Products
+      summary: Delete a registered product
+      description: Delete a registered product by productId. DELETE can be called only by the seller user who created the product
+      operationId: deleteProduct
+      security:
+        - basicAuth: []
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          $ref: '#/components/schemas/Product/properties/id'
+      responses:
+        "200":
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+    patch:
+      tags:
+        - Products
+      summary: Update a registered product
+      description: Update a registered product by productId. PATCH can be called only by the seller user who created the product
+      operationId: updateProduct
+      security:
+        - basicAuth: []
+      parameters:
+      - in: path
+        name: productId
+        required: true
+        schema:
+          $ref: '#/components/schemas/Product/properties/id'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdate'
+        required: true
+      responses:
+        "200":
+          description: Product updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "415":
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /$deposit:
+    post:
+      tags:
+        - Actions
+      summary: Deposit coins into user's vending machine account
+      description: Users with a “buyer” role can deposit 5, 10, 20, 50 and 100 cent coins into their vending machine account
+      operationId: depositCoins
+      security:
+        - basicAuth: []      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DepositRequest'
+        required: true
+      responses:
+        "200":
+          description: Coins deposited successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DepositResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "415":
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+
+  /$buy:
+    post:
+      tags:
+        - Actions
+      summary: Buy products from the money deposited
+      description: Accepts productId and amount of products so users with a “buyer” role can buy products with the money they’ve deposited. API should return total they’ve spent, products they’ve purchased and their change if there’s any (in 5, 10, 20, 50 and 100 cent coins)
+      operationId: buyProducts
+      security:
+        - basicAuth: []      
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BuyProductsRequest'
+        required: true
+      responses:
+        "200":
+          description: Products bought successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BuyProductsResponse'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "406":
+          description: Not Acceptable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "415":
+          description: Unsupported Media Type
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+
+  /$reset:
+    post:
+      tags:
+        - Actions
+      summary: Reset deposit
+      description: Users with a “buyer” role can reset their deposit
+      operationId: resetDeposit
+      security:
+        - basicAuth: []      
+      responses:
+        "200":
+          description: Deposit got reset successfully
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "401":
+          description: Unauthorized Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "404":
+          description: Entity Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+        "503":
+          description: Service Unavilable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'                
+
+components:
+  schemas:
+    UserCreate:
+      type: object
+      properties:
+        userName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        role:
+          $ref: "#/components/schemas/role"
+    User:
+      type: object
+      properties:
+        userName:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        email:
+          type: string
+        role:
+          $ref: "#/components/schemas/role"
+    UserUpdate:
+      type: object
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
+    role:
+      type: string
+      enum:
+      - SELLER
+      - BUYER   
+    UserList:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/User'
+          type: array
+        limit:
+          type: integer
+        offset:
+          type: integer
+        total:
+          description: Total number of users
+          type: integer
+      type: object
+    ProductCreate:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+          format: double
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        price:
+          type: number
+          format: double
+        createdBy:
+          type: string
+    ProductUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        price:
+          type: number
+          format: double
+    ProductList:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Product'
+          type: array
+        limit:
+          type: integer
+        offset:
+          type: integer
+        total:
+          description: Total number of products
+          type: integer
+      type: object
+    ErrorResponse:
+      properties:
+        error:
+          description: A user friendly error message
+          example: An example error message.
+          type: string
+        errorCode:
+          description: A machine-friendly identifier for the error response
+          type: string
+        traceId:
+          description: A unique identifier for the request
+          type: string
+      required:
+      - error
+      - errorCode
+      - traceId
+    CoinValueEnum:
+      type: integer
+      enum:
+      - 5
+      - 10
+      - 20
+      - 50
+      - 100
+    DepositRequest:
+      type: object
+      properties:
+        coinValue:
+          $ref: "#/components/schemas/CoinValueEnum"         
+    DepositResponse:
+      type: object
+      properties:
+        balance:
+          items:
+            $ref: '#/components/schemas/BalanceCoins'
+          type: array         
+    BuyProductsRequest:
+      type: object
+      properties:
+        productId:
+          type: integer
+          format: int64
+        amount:
+          type: integer
+          format: int64
+    BalanceCoins:
+      type: object
+      properties:
+        coinValue:
+          $ref: "#/components/schemas/CoinValueEnum"
+        amount:
+          type: integer
+          format: int64
+    BuyProductsResponse:
+      type: object
+      properties:
+        totalSpent:
+          type: number
+          format: double
+        product:
+          $ref: '#/components/schemas/Product'
+        amount:
+          type: integer
+          format: int64
+        change:
+          items:
+            $ref: '#/components/schemas/BalanceCoins'
+          type: array         
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
